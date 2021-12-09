@@ -1,7 +1,7 @@
 # so_long
 his project is a very small 2D game. It is built to make you work with textures, sprites. And some very basic gameplay elements
 
-You must create a small 2D game where a dolphin
+You must create a small 2D game where a dolphin\n
 escapes earth after eating some fish. Or any hero
 collects any valuables before leaving the place.
 The constraints are as follows:
@@ -35,8 +35,8 @@ space, 1 for a wall, C for a collectible, E for map exit and P for the player’
 starting position.
 This is a simple valid map:
 
-1111111111111
-10010000000C1
+1111111111111\n
+10010000000C1\n
 1000011111001
 1P0011E000001
 1111111111111
