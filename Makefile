@@ -5,35 +5,39 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jhermon- <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/07 15:25:04 by jhermon-          #+#    #+#              #
-#    Updated: 2021/12/09 15:34:47 by jhermon-         ###   ########.fr        #
+#    Created: 2021/12/29 11:38:14 by jhermon-          #+#    #+#              #
+#    Updated: 2021/12/29 14:29:46 by jhermon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-NAME		= 	so_long
 
-CFLAGS		= 	-Wall -Werror -Wextra -Imlx
+NAME = long
 
-OPTIONS		=	-Lmlx -lmlx -lz -framework OpenGL -framework AppKit
+SRC = *.c
 
-CC			= 	gcc
+CC = gcc
 
-RM			= 	rm -f
+OBJ = $(SRC:.c=.o)
 
-PTC			=	main.c
+FLAGS = -Wall -Wextra -Werror -Imlx
 
-PTO			=	$(PTC:%.c=%.o)
+LIBX = -Lmlx -lmlx -lz -framework OpenGL -framework AppKit
 
-all:		$(NAME)
+all: $(NAME) 
 
-$(NAME):	$(PTO)
-	$(CC) $(CFLAGS) $(OPTIONS) -o $(NAME) $(PTO)
+$(NAME): $(OBJ)
+		 $(CC) $(FLAGS) $(OBJ) $(LIBX) -o $(NAME)
+		 rm $(OBJ)
 
-clean:		
-	$(RM) $(PTO)
+$(OBJ): $(SRC)
+		$(CC) $(FLAGS) -c $(SRC)
 
-fclean:
-	$(RM) $(NAME)
-	
-re:			clean fclean
+exe: all
+		./$(NAME)
 
-.PHONY:		all clean fclean re
+clean: 
+		rm -rf $(OBJ)
+
+fclean: clean
+		rm -rf $(NAME)
+
+re: fclean all

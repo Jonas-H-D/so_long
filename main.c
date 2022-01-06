@@ -1,57 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhermon- <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 14:59:13 by jhermon-          #+#    #+#             */
-/*   Updated: 2021/12/09 18:16:54 by jhermon-         ###   ########.fr       */
+/*   Created: 2021/12/29 10:39:42 by jhermon-          #+#    #+#             */
+/*   Updated: 2022/01/06 16:00:30 by jhermon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include "map/map.h"
 
-int	main()
+int	main(void)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-//	void	*pix_ptr;
-	int		a;
-	int		b;
-	int	c;
-	int	d;
-
-	a = 100;
-	b = 100;
-	c = 200;
-	d = 200;
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "game 42");
-	while (a < 200)
-	{
-		mlx_pixel_put(mlx_ptr, win_ptr, a++, b, 0xFFFFFF);
-//		mlx_pixel_put(mlx_ptr, win_ptr, c++, d++, 0xFFFFFF);
-	}
-	while (b < 200)
-	{
-		mlx_pixel_put(mlx_ptr, win_ptr, a, b++, 0x34eb9e);
-//		mlx_pixel_put(mlx_ptr, win_ptr, c++, d++, 0xFFFFFF);
-	}
-
-	while (a > 100)
-	{
-		mlx_pixel_put(mlx_ptr, win_ptr, a--, b--, 0x3380ff);
-	}
-	b = 200;
-	while (b > 100)
-	{	
-		mlx_pixel_put(mlx_ptr, win_ptr, a, b--, 0xFFFFFF);
-	}
-	b = 200;
-	while (c > 100)
-	{	
-		mlx_pixel_put(mlx_ptr, win_ptr, c--, b, 0xFFFFFF);
-	}
-	mlx_loop(mlx_ptr);
+	t_program			program;
+	t_mapcheckerdata	data;
+	// initialise
+	program.mlx = mlx_init();
+	// open a new window
+	program.window = ft_new_window(program.mlx, (data.size.x * 64), (data.size.y * 64), "so_long 42");
+	// create a sprite (character, collect, door...
+	program.sprite = ft_new_sprite(program.mlx, "idle.xpm");
+	program.sprite_position.x = 0;
+	program.sprite_position.y = 0;
+	mlx_put_image_to_window(program.mlx, program.window.pointer, program.sprite.pointer, program.sprite_position.x, program.sprite_position.y);
+	// hook the key pressed event function
+	mlx_key_hook(program.window.pointer, *ft_input, &program);
+	// hook a function to the loop to make sure that position is cleared
+	mlx_loop_hook(program.mlx, *ft_update, &program);
+	// constant loop
+	mlx_loop(program.mlx);
 }
